@@ -64,35 +64,9 @@ let data = [
         return (task.name && task.date && task.assigned)
     }
 
-    function isValidDate(date) {
-
-        // Check for pattern
-        if(!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(date))
-            return false;
-
-        // Declare letiables
-        let parts, day, month, year, monthLength;
-
-        // Parse the date components to integers
-        parts = date.split("/");
-        day = parseInt(parts[1], 10);
-        month = parseInt(parts[0], 10);
-        year = parseInt(parts[2], 10);
-
-        // Range check for month and year -> can be edited to appropriate requirement
-        if(year < 1000 || year > 3000 || month == 0 || month > 12)
-            return false;
-
-        monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
-
-        // Adjust for leap years
-        if(year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
-            monthLength[1] = 29;
-
-        // Range check for day
-        return day > 0 && day <= monthLength[month - 1];
-    }
-
+    let dateControl = document.querySelector('input[type="date"]');
+			dateControl.value = 'mm/dd/yyyy';
+    
     function mapFormElements(form) {
         return {
             name:     form.elements[0].value,
@@ -123,13 +97,6 @@ let data = [
 
             return false
         }
-
-        if (!isValidDate(task.date)) {
-            alert('The "Date" must be in `mm/dd/yyyy` format.');
-
-            return false
-        }
-
         prependTask(task);
         clearFormValues(this.form);
     })
